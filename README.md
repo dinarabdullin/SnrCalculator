@@ -5,6 +5,7 @@ The program SnrCalculator allows determination of the signal-to-noise ratio (SNR
 General Information
 =========
 The source code of the program is written in Python 3.7 using the libraries numpy, scipy, matplotlib, PyQt-5 and pyqt5-tools. 
+The ready-to-use executables of the program are provided for Windows, Linux [in progress] and OS [in progress].
 
 Copyright
 =========
