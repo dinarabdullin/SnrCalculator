@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Python37-32\Scripts\pyuic5.exe" -x main_view_ui.ui -o main_view_ui.py
