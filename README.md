@@ -12,4 +12,5 @@ Copyright
 =========
 This program can be distributed under GNU General Public License.
 
-If you use this code please cite: D. Abdullin, P. Brehm, N. Fleck, S. Spicher, S. Grimme, O. Schiemann, Pulsed EPR Dipolar Spectroscopy on Spin Pairs with one Highly Anisotropic Spin Center: The Low‐Spin Fe(III) Case, Chem. Eur. J. 2019, 25, 14388-14398.
+If you use this code please cite: 
+D. Abdullin, P. Brehm, N. Fleck, S. Spicher, S. Grimme, O. Schiemann, Pulsed EPR Dipolar Spectroscopy on Spin Pairs with one Highly Anisotropic Spin Center: The Low‐Spin Fe(III) Case, Chem. Eur. J. 2019, 25, 14388-14398.
