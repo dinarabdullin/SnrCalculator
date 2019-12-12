@@ -1,10 +1,15 @@
-- python 3.X (https://www.python.org/downloads/)
-- numpy (python -m pip install numpy)
-- scipy (python -m pip install scipy)
-- matplotlib (python -m pip install matplotlib)
-- PyQt5 (python -m pip install PyQt5)
-- pyqt5-tools (python -m pip install pyqt5-tools)
+- python 3.X
+- numpy
+- scipy
+- matplotlib
+- PyQt5
+- pyqt5-tools
 
 To compile:
 - pyinstaller
-pyinstaller --onefile <your_script_name>.py
+1) Run:
+pyinstaller --onefile main.py
+2) Edit main.spec:
+exe = EXE(..., [('W ignore', None, 'OPTION')], ...)
+3) Run:
+pyinstaller --onefile main.spec
