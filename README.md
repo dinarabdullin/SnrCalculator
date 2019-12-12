@@ -6,6 +6,7 @@ General Information
 =========
 The source code of the program is written in Python 3.7 using the libraries numpy, scipy, matplotlib, PyQt-5 and pyqt5-tools. 
 The Windows and Linux executables of the program are provided at:
+https://github.com/dinarabdullin/SnrCalculator/releases
 
 Copyright
 =========
