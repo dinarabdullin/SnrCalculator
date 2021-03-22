@@ -6,4 +6,4 @@ def calculate_snr(s, nv):
     nv_zero_mean = nv - n_mean * np.ones(nv.size)
     n_std = np.std(nv_zero_mean)
     snr = s / n_std
-    return snr
+    return snr, n_std

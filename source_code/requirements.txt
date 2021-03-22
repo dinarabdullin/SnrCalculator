@@ -5,11 +5,6 @@
 - PyQt5
 - pyqt5-tools
 
-To compile:
+Compilation:
 - pyinstaller
-1) Run:
-pyinstaller --onefile main.py
-2) Edit main.spec:
-exe = EXE(..., [('W ignore', None, 'OPTION')], ...)
-3) Run:
-pyinstaller --onefile main.spec
+* Run: pyinstaller --noconsole --clean --onefile main.py

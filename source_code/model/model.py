@@ -17,9 +17,10 @@ from resources.math.rmsd import calculate_rmsd
 class Model(QObject):
     filename_changed = pyqtSignal()
     data_changed = pyqtSignal()
-    modulation_depth_changed = pyqtSignal()
     window_size_ranges_changed = pyqtSignal()
     snr_changed = pyqtSignal()
+    modulation_depth_changed = pyqtSignal()
+    noise_std_changed = pyqtSignal()
     window_size_opt_changed = pyqtSignal()
     window_size_opt_reset = pyqtSignal()
 
@@ -52,6 +53,7 @@ class Model(QObject):
         # update snr
         self.run_snr_calculation()
         self.snr_changed.emit()
+        self.noise_std_changed.emit()
         self.data_changed.emit()
 
     @property
@@ -106,24 +108,6 @@ class Model(QObject):
             self.snr_changed.emit()   
 
     @property
-    def modulation_depth(self):
-        return self._modulation_depth
-        
-    @modulation_depth.setter
-    def modulation_depth(self, value):
-        self._modulation_depth = value
-        if (self._data):
-            # update data
-            self._data['modulation_depth'] = (1.0 - self._modulation_depth) * np.amax(self._data['signal']) * np.ones(self._data['signal'].size)
-            # reset the window size optimization
-            self._window_size_opt = {}
-            self.window_size_opt_reset.emit()
-            # update snr
-            self.run_snr_calculation()
-            self.snr_changed.emit()	
-            self.data_changed.emit()
-
-    @property
     def window_size(self):
         return self._window_size
         
@@ -145,6 +129,7 @@ class Model(QObject):
             # update snr
             self.run_snr_calculation()
             self.snr_changed.emit()
+            self.noise_std_changed.emit()
             self.data_changed.emit()
         if (self._window_size_opt):
             self.window_size_opt_changed.emit()
@@ -166,12 +151,13 @@ class Model(QObject):
             # update snr
             self.run_snr_calculation()
             self.snr_changed.emit()
+            self.noise_std_changed.emit()
             self.data_changed.emit()
 
     @property
     def snr(self):
         return self._snr
-
+        
     @property
     def snr_units(self):
         return self._snr_units
@@ -182,8 +168,31 @@ class Model(QObject):
         if (self._snr_unitless):
             # update snr
             self._snr = change_snr_units(self._snr_unitless, self._snr_units, self._acquisition_time, self._acquisition_time_units)
-            self.snr_changed.emit()
-
+            self.snr_changed.emit() 
+    
+    @property
+    def modulation_depth(self):
+        return self._modulation_depth
+        
+    @modulation_depth.setter
+    def modulation_depth(self, value):
+        self._modulation_depth = value
+        if (self._data):
+            # update data
+            self._data['modulation_depth'] = (1.0 - self._modulation_depth) * np.amax(self._data['signal']) * np.ones(self._data['signal'].size)
+            # reset the window size optimization
+            self._window_size_opt = {}
+            self.window_size_opt_reset.emit()
+            # update snr
+            self.run_snr_calculation()
+            self.snr_changed.emit()	
+            self.noise_std_changed.emit()
+            self.data_changed.emit()
+    
+    @property
+    def noise_std(self):
+        return self._noise_std    
+    
     @property
     def show_signal(self):
         return self._show_signal
@@ -253,7 +262,7 @@ class Model(QObject):
         # calculate the noise
         self._data['noise'] = self._data['signal'] - self._data['interpolation']
         # calculate SNR
-        self._snr_unitless = calculate_snr(self._modulation_depth, self._data['noise'])
+        self._snr_unitless, self._noise_std = calculate_snr(self._modulation_depth, self._data['noise'])
         self._snr = change_snr_units(self._snr_unitless, self._snr_units, self._acquisition_time, self._acquisition_time_units)
 
     def optimize_window_size(self):
@@ -290,11 +299,12 @@ class Model(QObject):
         self._mirror_data = initialization_data['mirror_data']
         self._acquisition_time = initialization_data['acqusition_time']
         self._acquisition_time_units = initialization_data['acquisition_time_units']
-        self._modulation_depth = initialization_data['modulation_depth']
         self._window_size = initialization_data['window_size']
         self._window_size_min = 0
         self._window_size_max = 1000
         self._polynomial_order = initialization_data['polynomial_order']
+        self._modulation_depth = initialization_data['modulation_depth']
+        self._noise_std = initialization_data['noise_std']
         self._snr_unitless = initialization_data['snr']
         self._snr = initialization_data['snr']
         self._snr_units = initialization_data['snr_units']
